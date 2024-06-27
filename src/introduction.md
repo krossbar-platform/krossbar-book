@@ -1,4 +1,8 @@
 # Introduction
+![Krossbar Logo](images/logo.png)
+
+Welcome to Krossbar platform documentation.
+
 ## Reasoning
 
 Building a Linux device is a complex task, which requires development of multiple domain-specific services. Inter-process communication is a common task to solve in cases like this. Krossbar is developed to help implement, monitor, and manage a complex service-based linux systems.
@@ -10,7 +14,13 @@ To rendezvois the services Krossbar provides a service bus, which uses permissio
 The following diagram represent basics of the connection process:
 ```mermaid
 sequenceDiagram
-    Alice->>John: Hello John, how are you?
-    John-->>Alice: Great!
-    Alice-)John: See you later!
+    Service1->>Hub: Connect("Service2")
+    Hub->>Hub: Check if connection allowed
+    alt Connection is allowed
+        Hub->>Hub: Make a socket pair
+        Hub--)Service1: Response(socket1)
+        Hub--)Service2: Message(socket2)
+    else
+        Hub--)Service1: Error(NotAllowed)
+    end
 ```
